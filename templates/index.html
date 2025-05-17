@@ -69,14 +69,14 @@
                         <tr>
                             <td>{{ entry['ip_address'] }}</td>
                             <td>{{ entry['timestamp'] }}</td>
-                            <td style="font-family:monospace;">{{ entry['request'] }}</td>
+                            <td>{{ entry['request'] }}</td>
                             <td>{{ entry['status_code'] }}</td>
                             <td>{{ entry['bytes_sent'] }}</td>
                             <td>{{ entry['user_agent'] }}</td>
                         </tr>
                         {% else %}
                         <tr>
-                            <td colspan="7">No log entries found.</td>
+                            <td id="no_logs" colspan="7">No log entries found.</td>
                         </tr>
                         {% endfor %}
                     </tbody>

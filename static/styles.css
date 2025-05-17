@@ -91,9 +91,19 @@ table {
 }
 
 thead {
-  background-color: var(--main);
+  background-color: var(--section);
   position: sticky;
   top: 0;
+}
+
+tbody {
+    background-color: var(--card);
+}
+
+#stats-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 th, td {
@@ -105,12 +115,13 @@ th, td {
 #table-container {
   max-height: 400px;
   overflow-y: auto;
+  overflow-x: auto;
   grid-column: span 1;
 }
 
 @media (min-width: 768px) {
   #table-container {
-    grid-column: span 2;
+    grid-column: span 3;
   }
 }
 
@@ -161,12 +172,6 @@ th, td {
   margin-top: 1.5rem;
 }
 
-#stats-container {
-  flex-direction: column;
-  justify-content: center;
-  gap: 1rem;
-  font-size: 1.25rem;
-}
 canvas {
   width: 100%;
   height: 100%;
@@ -179,18 +184,18 @@ canvas {
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
             0 1px 2px 0 rgba(0, 0, 0, 0.06);
     height: 18rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
 }
 
-table {
+#chartGrid > #table-container {
     padding: 0;
 }
 
 th, td {
     padding: 0.25rem;
+}
+
+#no_logs {
+    text-align: center;
 }
 
 /* body {
