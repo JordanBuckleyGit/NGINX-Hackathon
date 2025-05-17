@@ -57,6 +57,15 @@ def index():
         else:
             code_frequencies[code] += 1
 
+    timestamp_logs = {}
+    timestamps = db.execute("""SELECT timestamp FROM logs ORDER BY timestamp DESC""").fetchall()
+    for timestamp in timestamps:
+        timestamp = timestamp['timestamp'][:-20]
+        if timestamp not in timestamp_logs:
+            timestamp_logs[timestamp] = 1
+        else:
+            timestamp_logs[timestamp] += 1
+
     return render_template(
         'index.html',
         form=form,
@@ -65,5 +74,6 @@ def index():
         avg_bytes=avg_bytes,
         most_common_status=most_common_status[0] if most_common_status else "N/A",
         most_common_ip=most_common_ip[0] if most_common_ip else "N/A",
-        code_frequencies=code_frequencies
+        code_frequencies=code_frequencies,
+        timestamp_logs=timestamp_logs
     )

@@ -2,7 +2,17 @@
 let status_labels = Object.keys(code_frequencies);
 let status_data = Object.values(code_frequencies);
 
-console.log(status_data.length)
+// line chart
+const sortedKeys = Object.keys(timestamp_logs).sort((a, b) => {
+  const parseDate = str => new Date(str.replace(/(\d{2})\/(\w{3})/, (_, d, m) => {
+    const months = { Jan:0, Feb:1, Mar:2, Apr:3, May:4, Jun:5, Jul:6, Aug:7, Sep:8, Oct:9, Nov:10, Dec:11 };
+    return `2025-${months[m]}-${d}`;
+  }));
+  return parseDate(a) - parseDate(b);
+});
+
+const timestamp_labels = sortedKeys;
+const timestamp_data = sortedKeys.map(key => timestamp_logs[key]);
 
 let requestChart;
 let statusChart;
@@ -34,10 +44,10 @@ function createChart() {
     requestChart = new Chart(requestCtx, {
         type: 'line',
         data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            labels: timestamp_labels,
             datasets: [{
                 label: 'Logs',
-                data: [3000, 4000, 3200, 5000, 4800, 6000],
+                data: timestamp_data,
                 borderColor: 'rgb(34, 197, 94)',
                 backgroundColor: 'rgba(34, 197, 94, 0.2)',
                 tension: 0.4,
