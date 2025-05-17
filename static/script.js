@@ -50,10 +50,16 @@ function createChart() {
             maintainAspectRatio: false,
             plugins: {
                 legend: {
-                    labels: {
-                        color: chartColors.textColor
-                    }
-                }
+                    display: false
+                },
+                title: {
+                color: 'white',
+                display: true,
+                text: 'Logs Over Time',
+                font: {
+                    size: 18
+                    },
+                },
             },
             scales: {
                 x: {
