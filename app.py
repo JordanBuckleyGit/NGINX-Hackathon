@@ -2,7 +2,7 @@ from flask import Flask, render_template, session, redirect, url_for, g, request
 from database import get_db, close_db
 from flask_session import Session
 from werkzeug.security import generate_password_hash, check_password_hash
-from forms import LogFilterForm, ExportReportForm
+from forms import LogFilterForm
 from functools import wraps
 import os
 
@@ -29,9 +29,8 @@ def show_logs():
 
     if os.path.exists(log_path):
         with open(log_path, 'r') as f:
-            print(f.readlines())
             log_lines = f.readlines()
-    print("LOG LINES:", log_lines)
+        print("LOG LINES:", log_lines)
 
     if form.validate_on_submit():
         if form.ip_address.data:
