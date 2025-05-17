@@ -25,7 +25,7 @@ class LogFilterForm(FlaskForm):
 class ExportReportForm(FlaskForm):
     format = SelectField("Export Format", choices=[
         ("csv", "CSV"),
-        ("pdg", "PDF")
+        ("pdf", "PDF")
     ])
 
     submit = SubmitField("Download Report")
