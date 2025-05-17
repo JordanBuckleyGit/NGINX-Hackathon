@@ -4,9 +4,10 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ACM</title>
+    <title>NGINX Hackathon</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
     <script type="module" src="{{ url_for('static', filename='script.js') }}"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
@@ -80,7 +81,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for entry in log_entries %}
+                        {% for entry in log_entries[:1] %}
                         {% if loop.index0 % 2 == 0 %}
                         <tr style="background-color: #4B5563;">
                             <td>{{ entry['id'] }}</td>
@@ -111,6 +112,8 @@
                 </table>
             </div>
 
+            <div id="map"></div>
+
             <div class="stats-container">
                 <p>Total Requests: {{ total_requests }}</p>
                 <p>Average Bytes Sent: {{ avg_bytes|round(2) }}</p>
@@ -118,8 +121,6 @@
                 <p>Most Common IP: {{ most_common_ip }}</p>
                 <p>Unique IPs: {{ unique_ips_count }}</p>
             </div>
-
-            <div id="map"></div>
 
             <div class="chart-container">
                 <canvas id="requestChart"></canvas>
@@ -130,7 +131,7 @@
             </div>
 
             <div class="chart-container">
-                <canvas id="barChart"></canvas>
+                <canvas id="errorChart"></canvas>
             </div>
 
         </section>
@@ -155,17 +156,3 @@
 </body>
 
 </html>
-<!-- <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ACM</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png') }}">
-    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
-</head>
-<body>
-    <main>
-        <button id="toggleMode" style="float:right;">Toggle Dark/Light Mode</button>
-        <h1>Test</h1>
-    </main>
->>>>>>> 7688bbfec5f3b736befe37c79134f0addfd5f596 -->
