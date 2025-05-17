@@ -130,6 +130,8 @@
 <script>
     let code_frequencies = JSON.parse('{{ code_frequencies|tojson|safe }}');
     let timestamp_logs = JSON.parse('{{ timestamp_logs|tojson|safe }}');
+    let error_hour_labels = JSON.parse('{{ error_hour_labels|tojson|safe }}');
+    let error_hour_data = JSON.parse('{{ error_hour_data|tojson|safe }}');
     let ips = JSON.parse('{{ ips|tojson|safe }}');
     let unique_ips = JSON.parse('{{ unique_ips|tojson|safe }}');
     let high_conc = JSON.parse('{{ high_conc|tojson|safe }}');

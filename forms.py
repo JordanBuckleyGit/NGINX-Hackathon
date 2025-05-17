@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SelectField, DateTimeField, SubmitField
+from wtforms import StringField, SelectField, DateField, SubmitField
 from wtforms.validators import Optional
 
 class LogFilterForm(FlaskForm):
@@ -18,8 +18,8 @@ class LogFilterForm(FlaskForm):
         ("POST", "POST"),
     ], validators=[Optional()])
 
-    start_time = DateTimeField('Start Time (DD-MM-YY)', format='%d-%m-%y', validators=[Optional()])
-    end_time = DateTimeField('End Time (DD-MM-YY)', format = '%d-%m-%y', validators=[Optional()])
+    start_time = DateField('Start Time (DD-MM-YY)', format='%d-%m-%y', validators=[Optional()])
+    end_time = DateField('End Time (DD-MM-YY)', format = '%d-%m-%y', validators=[Optional()])
     submit = SubmitField("Apply Filters")
 
 class ExportReportForm(FlaskForm):

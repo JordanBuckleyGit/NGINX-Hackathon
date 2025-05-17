@@ -4,7 +4,8 @@ from flask_session import Session
 from werkzeug.security import generate_password_hash, check_password_hash
 from forms import LogFilterForm
 from functools import wraps
-from collections import OrderedDict
+from collections import OrderedDict, Counter
+import datetime
 import os
 
 app = Flask(__name__)
@@ -67,6 +68,20 @@ def index():
         else:
             timestamp_logs[timestamp] += 1
 
+    error_hours = Counter()
+    for entry in log_entries:
+        code = int(entry['status_code'])
+        if 400 <= code < 600:
+            try:
+                dt = datetime.datetime.strptime(entry['timestamp'][:20], "%d/%b/%Y:%H:%M:%S")
+                hour = dt.hour
+                error_hours[hour] += 1
+            except Exception:
+                continue
+
+    error_hour_labels = [f"{h:02d}:00" for h in range(24)]
+    error_hour_data = [error_hours.get(h, 0) for h in range(24)]
+
     unique_ip_groups = OrderedDict()
     for entry in log_entries:
         ip = entry['ip_address']
@@ -102,7 +117,7 @@ def index():
         'index.html',
         form=form,
         log_entries=log_entries,
-        ips = ips,
+        ips=ips,
         total_requests=total_requests,
         avg_bytes=avg_bytes,
         most_common_status=most_common_status[0] if most_common_status else "N/A",
@@ -111,6 +126,8 @@ def index():
         timestamp_logs=timestamp_logs,
         unique_ips_count=unique_ips_count,
         unique_ips=unique_ips,
+        error_hour_labels=error_hour_labels,
+        error_hour_data=error_hour_data,
         high_conc=high_conc,
         mid_conc=mid_conc,
         low_conc=low_conc
