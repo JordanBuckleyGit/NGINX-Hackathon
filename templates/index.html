@@ -68,7 +68,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for entry in log_entries[:1] %}
+                        {% for entry in log_entries %}
                             {% if loop.index0 % 2 == 0 %}
                                 <tr style="background-color: #4B5563;">
                                     <td>{{ entry['id'] }}</td>
