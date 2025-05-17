@@ -302,6 +302,24 @@ document.addEventListener("DOMContentLoaded", function () {
         window.scrollTo({ top: 0, behavior: "smooth" });
     });
 });
+
+const downloadBtn = document.getElementById("downloadLogBtn");
+const downloadModal = document.getElementById("downloadModal");
+const closeModalBtn = document.getElementById("closeModalBtn");
+
+downloadBtn.addEventListener("click", () => {
+    downloadModal.style.display = "flex";
+});
+
+closeModalBtn.addEventListener("click", () => {
+    downloadModal.style.display = "none";
+});
+
+downloadModal.addEventListener("click", (e) => {
+    if (e.target.classList.contains("modal")) {
+        downloadModal.style.display = "none";
+    }
+});
 // document.addEventListener('DOMContentLoaded', function() {
 //     const btn = document.getElementById('toggleMode');
 //     if (btn) {
