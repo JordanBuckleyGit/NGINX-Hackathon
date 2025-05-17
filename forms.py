@@ -15,3 +15,11 @@ class LogFilterForm(FlaskForm):
     start_time = DateTimeField('Start Time (DD-MM-YY)', format='%d-%m-%y', validators=[Optional()])
     end_time = DateTimeField('End Time (DD-MM-YY)', format = '%d-%m-%y', validators=[Optional()])
     submit = SubmitField("Apply Filters")
+
+class ExportReportForm(FlaskForm):
+    format = SelectField("Export Format", choices=[
+        ("csv", "CSV"),
+        ("pdg", "PDF")
+    ])
+
+    submit = SubmitField("Download Report")
