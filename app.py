@@ -32,6 +32,7 @@ def index():
         if form.method.data:
             filters.append("request LIKE ?")
             params.append(f"{form.method.data} %")
+        # Add date filtering if needed
 
     if filters:
         query += " WHERE " + " AND ".join(filters)
@@ -39,4 +40,23 @@ def index():
 
     log_entries = db.execute(query, params).fetchall()
 
-    return render_template('index.html', form=form, log_entries=log_entries)
+    total_requests = db.execute("SELECT COUNT(*) FROM logs").fetchone()[0]
+    most_common_bytes = db.execute(
+        "SELECT bytes_sent, COUNT(*) as cnt FROM logs GROUP BY bytes_sent ORDER BY cnt DESC LIMIT 1"
+    ).fetchone()
+    most_common_status = db.execute(
+            "SELECT status_code, COUNT(*) as cnt FROM logs GROUP BY status_code ORDER BY cnt DESC LIMIT 1"
+        ).fetchone()
+    most_common_ip = db.execute(
+        "SELECT ip_address, COUNT(*) as cnt FROM logs GROUP BY ip_address ORDER BY cnt DESC LIMIT 1"
+    ).fetchone()
+
+    return render_template(
+        'index.html',
+        form=form,
+        log_entries=log_entries,
+        total_requests=total_requests,
+        most_common_bytes=most_common_bytes[0] if most_common_bytes else "N/A",
+        most_common_status=most_common_status[0] if most_common_status else "N/A",
+        most_common_ip=most_common_ip[0] if most_common_ip else "N/A"
+    )

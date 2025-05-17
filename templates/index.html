@@ -95,9 +95,10 @@
             </div>
 
             <div class="stats-container">
-                <p>Total Requests: 5,097</p>
-                <p>Average Response Time: 13ms</p>
-                <p>Unique IP: 3,124</p>
+                <p>Total Requests: {{ total_requests }}</p>
+                <p>Average Bytes Sent: {{ most_common_bytes }}</p>
+                <p>Most Common Status Code: {{ most_common_status }}</p>
+                <p>Most Common IP: {{ most_common_ip }}</p>
             </div>
 
             <div class="chart-container">
