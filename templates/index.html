@@ -80,7 +80,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for entry in log_entries %}
+                        {% for entry in log_entries[:1] %}
                         {% if loop.index0 % 2 == 0 %}
                         <tr style="background-color: #4B5563;">
                             <td>{{ entry['id'] }}</td>
@@ -111,6 +111,8 @@
                 </table>
             </div>
 
+            <div id="map"></div>
+            
             <div class="stats-container">
                 <p>Total Requests: {{ total_requests }}</p>
                 <p>Average Bytes Sent: {{ avg_bytes|round(2) }}</p>
@@ -118,8 +120,6 @@
                 <p>Most Common IP: {{ most_common_ip }}</p>
                 <p>Unique IPs: {{ unique_ips_count }}</p>
             </div>
-
-            <div id="map"></div>
 
             <div class="chart-container">
                 <canvas id="requestChart"></canvas>
