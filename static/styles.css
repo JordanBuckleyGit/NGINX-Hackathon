@@ -207,6 +207,57 @@ th {
     text-align: center;
 }
 
+/* ...existing code... */
+#sidebar {
+  padding: 2em;
+}
+
+#sidebar form > div {
+  background: var(--card);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+#sidebar label {
+  font-size: 0.95rem;
+  color: var(--main-text);
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+}
+
+#sidebar input,
+#sidebar select {
+  width: 100%;
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  border: 1px solid var(--muted);
+  background: var(--main);
+  color: var(--main-text);
+  font-size: 1rem;
+  margin-top: 0.25rem;
+}
+
+#sidebar input[type="submit"], #sidebar button, #sidebar .btn {
+  margin-top: 1rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+
+#sidebar input[type="submit"]:hover, #sidebar button:hover, #sidebar .btn:hover {
+  background: #123072;
+}
+
 /* body {
     font-family: Arial, sans-serif;
     background-color: #f4f6f8;
