@@ -203,10 +203,6 @@ th {
   display: none;
 }
 
-th, td {
-    padding: 0.25rem;
-}
-
 #no_logs {
     text-align: center;
 }

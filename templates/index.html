@@ -58,22 +58,33 @@
                         <tr>
                             <th>IP</th>
                             <th>Timestamp</th>
-                            <th>Request</th>
                             <th>Response Code</th>
                             <th>Bytes sent</th>
                             <th>User Agent</th>
+                            <th>Request</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for entry in log_entries %}
-                        <tr>
-                            <td>{{ entry['ip_address'] }}</td>
-                            <td>{{ entry['timestamp'] }}</td>
-                            <td>{{ entry['request'] }}</td>
-                            <td>{{ entry['status_code'] }}</td>
-                            <td>{{ entry['bytes_sent'] }}</td>
-                            <td>{{ entry['user_agent'] }}</td>
-                        </tr>
+                            {% if loop.index0 % 2 == 0 %}
+                                <tr style="background-color: #4B5563;">
+                                    <td>{{ entry['ip_address'] }}</td>
+                                    <td>{{ entry['timestamp'] }}</td>
+                                    <td>{{ entry['status_code'] }}</td>
+                                    <td>{{ entry['bytes_sent'] }}</td>
+                                    <td>{{ entry['user_agent'] }}</td>
+                                    <td>{{ entry['request'] }}</td>
+                                </tr>
+                            {% else %}
+                            <tr style="background-color: #6B7280;">
+                                    <td>{{ entry['ip_address'] }}</td>
+                                    <td>{{ entry['timestamp'] }}</td>
+                                    <td>{{ entry['status_code'] }}</td>
+                                    <td>{{ entry['bytes_sent'] }}</td>
+                                    <td>{{ entry['user_agent'] }}</td>
+                                    <td>{{ entry['request'] }}</td>
+                            </tr>
+                            {% endif %}
                         {% else %}
                         <tr>
                             <td id="no_logs" colspan="7">No log entries found.</td>
