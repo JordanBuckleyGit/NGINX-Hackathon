@@ -28,7 +28,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     .bindPopup(`IP: ${ip}`);
             }
         } catch (e) {
-            // Ignore failed lookups
         }
     }
 });

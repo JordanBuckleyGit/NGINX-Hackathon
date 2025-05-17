@@ -4,6 +4,7 @@ from flask_session import Session
 from werkzeug.security import generate_password_hash, check_password_hash
 from forms import LogFilterForm
 from functools import wraps
+from collections import OrderedDict
 import os
 
 app = Flask(__name__)
@@ -65,7 +66,16 @@ def index():
             timestamp_logs[timestamp] = 1
         else:
             timestamp_logs[timestamp] += 1
-    ips = [entry['ip_address'] for entry in log_entries]
+
+    unique_ip_groups = OrderedDict()
+    for entry in log_entries:
+        ip = entry['ip_address']
+        key = '.'.join(ip.split('.')[:3]) 
+        if key not in unique_ip_groups:
+            unique_ip_groups[key] = ip
+
+    ips = list(unique_ip_groups.values())
+
     return render_template(
         'index.html',
         form=form,
