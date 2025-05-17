@@ -68,7 +68,7 @@ h2 {
 #chartGrid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
 @media (max-width: 768px) {
@@ -264,6 +264,10 @@ th {
 
 #sidebar input[type="submit"]:hover, #sidebar button:hover, #sidebar .btn:hover {
   background: #123072;
+}
+
+#map {
+    grid-column: span 2;
 }
 
 /* body {

@@ -74,6 +74,17 @@ def index():
         if key not in unique_ip_groups:
             unique_ip_groups[key] = ip
 
+    
+    unique_ips = {}
+    for entry in log_entries:
+        entry = entry['ip_address'].split(".")[0]
+        if entry not in unique_ips:
+            unique_ips[entry] = 1
+        else:
+            unique_ips[entry] += 1
+
+    unique_ips = len(unique_ips)
+
     ips = list(unique_ip_groups.values())
 
     return render_template(
@@ -86,5 +97,6 @@ def index():
         most_common_status=most_common_status[0] if most_common_status else "N/A",
         most_common_ip=most_common_ip[0] if most_common_ip else "N/A",
         code_frequencies=code_frequencies,
-        timestamp_logs=timestamp_logs
+        timestamp_logs=timestamp_logs,
+        unique_ips=unique_ips
     )
