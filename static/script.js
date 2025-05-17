@@ -17,10 +17,10 @@ function getChartColors() {
     const isDark = document.documentElement.classList.contains('dark');
 
     return {
-        textColor: isDark ? gray : '#000',
+        textColor: isDark ? 'gray' : '#fff',
         gridColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
-        backgroundColor: isDark ? '#1f2937' : gray,
-        borderColor: isDark ? gray : '#000', 
+        backgroundColor: isDark ? '#1f2937' : 'gray',
+        borderColor: isDark ? 'gray' : '#000', 
     };
 }
 
@@ -94,8 +94,16 @@ function createChart() {
             plugins: {
                 legend: {
                     display: false
-                }
-            },
+                },
+                title: {
+                color: 'white',
+                display: true,
+                text: 'Status Code Distribution',
+                font: {
+                    size: 18
+                    },
+                },
+            }
         }
     });
     

@@ -49,9 +49,7 @@ def index():
     ).fetchone()
 
     code_frequencies = {}
-
     codes = db.execute("""SELECT status_code FROM logs""").fetchall()
-
     for code in codes:
         code = code['status_code']
         if code not in code_frequencies:
