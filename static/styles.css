@@ -7,15 +7,20 @@
   --accent: #1E40AF;
 }
 
+canvas {
+  max-width: 100%;
+}
+
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
 body {
   background-color: var(--main);
   color: var(--main-text);
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   margin: 0;
   padding: 0;
-}
-
-body {
   display: flex;
   text-align: center;
 }
@@ -24,7 +29,7 @@ body {
   background-color: var(--section);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   order: 1;
-  width: 8rem;
+  width: 16rem;
 }
 
 @media (max-width: 768px) {
@@ -97,17 +102,14 @@ th, td {
   border-bottom: 1px solid var(--muted);
 }
 
-.max-h-\[400px\] {
+#table-container {
   max-height: 400px;
   overflow-y: auto;
-}
-
-.col-span-1 {
   grid-column: span 1;
 }
 
 @media (min-width: 768px) {
-  .md\:col-span-2 {
+  #table-container {
     grid-column: span 2;
   }
 }
@@ -155,40 +157,19 @@ th, td {
   transform: translateX(26px);
 }
 
-.space-y-6 > * + * {
+#headerBar > * + * {
   margin-top: 1.5rem;
 }
 
-.flex-col {
+#stats-container {
   flex-direction: column;
-}
-
-.justify-center {
   justify-content: center;
-}
-
-.gap-4 {
   gap: 1rem;
-}
-
-.text-xl {
   font-size: 1.25rem;
 }
-
-.w-full {
-  width: 100%;
-}
-
-.h-full {
-  height: 100%;
-}
-
 canvas {
-  max-width: 100%;
-}
-
-*, *:before, *:after {
-    box-sizing: border-box;
+  width: 100%;
+  height: 100%;
 }
 
 #chartGrid > div {
@@ -210,6 +191,7 @@ table {
 th, td {
     padding: 0.25rem;
 }
+
 /* body {
     font-family: Arial, sans-serif;
     background-color: #f4f6f8;

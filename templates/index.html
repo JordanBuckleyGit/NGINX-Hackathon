@@ -11,7 +11,7 @@
 <body>
 
   <section id="sidebar">
-            <form method="POST" action="{{ url_for('show_logs') }}">
+    <form method="POST" action="{{ url_for('show_logs') }}">
       {{ form.hidden_tag() }}
       <div>
         {{ form.ip_address.label }} {{ form.ip_address(size=20) }}
@@ -47,7 +47,7 @@
 
     <section id="chartGrid">
 
-      <div>
+      <div id="table-container">
         <table>
             <thead>
               <tr>
@@ -74,21 +74,21 @@
         </table>
       </div>
 
-       <div>
+       <div class="stats-container">
         <p>Total Requests: 5,097</p>
         <p>Average Response Time: 13ms</p>
         <p>Unique IP: 3,124</p>
       </div>
 
-      <div>
+      <div class="chart-container">
         <canvas id="requestChart"></canvas>
       </div>
 
-      <div>
+      <div class="chart-container">
         <canvas id="statusChart"></canvas>
       </div>
 
-      <div>
+      <div class="chart-container">
         <canvas id="barChart"></canvas>
       </div>
 
