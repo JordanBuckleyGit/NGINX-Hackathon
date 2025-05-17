@@ -12,6 +12,12 @@ class LogFilterForm(FlaskForm):
         ('403', '403 Forbidden')
     ], validators=[Optional()])
 
+    method = SelectField("HTTP Method", choices=[
+        ("", "All"),
+        ("GET", "GET"),
+        ("POST", "POST"),
+    ], validators=[Optional()])
+
     start_time = DateTimeField('Start Time (DD-MM-YY)', format='%d-%m-%y', validators=[Optional()])
     end_time = DateTimeField('End Time (DD-MM-YY)', format = '%d-%m-%y', validators=[Optional()])
     submit = SubmitField("Apply Filters")
