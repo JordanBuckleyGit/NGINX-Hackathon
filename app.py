@@ -16,14 +16,27 @@ Session(app)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    form = LogFilterForm()
+    log_lines = []
+    return render_template('index.html', form=form, log_lines=log_lines)
 
-@app.route('/logs')
+
+@app.route('/logs', methods=['GET', 'POST'])
 def show_logs():
+    form = LogFilterForm()
     log_path = os.path.join(app.root_path, 'access.log')
-    if not os.path.exists(log_path):
-        return "Log file not found.", 404
+    log_lines = []
 
-    with open(log_path, 'r') as f:
-        lines = f.readlines()
-    return "<br>".join(line.strip() for line in lines)
+    if os.path.exists(log_path):
+        with open(log_path, 'r') as f:
+            print(f.readlines())
+            log_lines = f.readlines()
+    print("LOG LINES:", log_lines)
+
+    if form.validate_on_submit():
+        if form.ip_address.data:
+            log_lines = [line for line in log_lines if form.ip_address.data in line]
+        if form.status_code.data:
+            log_lines = [line for line in log_lines if form.status_code.data in line]
+
+    return render_template('index.html', form=form, log_lines=log_lines)
