@@ -153,50 +153,55 @@ function createChart() {
         }
     });
     
-    barChart = new Chart(barCtx, {
+barChart = new Chart(barCtx, {
     type: 'bar',
     data: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        labels: error_hour_labels,
         datasets: [{
-        label: 'Errors',
-        data: [3000, 4000, 3200, 5000, 4800, 6000],
-        borderColor: 'rgb(34, 197, 94)',
-        backgroundColor: 'rgba(34, 197, 94, 0.2)',
-        tension: 0.4,
-        fill: true,
-        pointRadius: 4,
+            label: 'Errors per Hour',
+            data: error_hour_data,
+            borderColor: 'rgb(255, 99, 132)',
+            backgroundColor: 'rgba(255, 99, 132, 0.5)',
         }]
     },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    labels: {
-                        color: chartColors.textColor
-                    }
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                labels: {
+                    color: chartColors.textColor
                 }
             },
-            scales: {
-                x: {
-                    ticks: {
-                        color: chartColors.textColor
-                    },
-                    grid: {
-                        color: chartColors.gridColor
-                    }
+            title: {
+                color: 'white',
+                display: true,
+                text: 'Errors by Hour of Day',
+                font: {
+                    size: 18
                 },
-                y: {
-                    ticks: {
-                        color: chartColors.textColor
-                    },
-                    grid: {
-                        color: chartColors.gridColor
-                    }
+            },
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: chartColors.textColor
+                },
+                grid: {
+                    color: chartColors.gridColor
+                }
+            },
+            y: {
+                ticks: {
+                    color: chartColors.textColor
+                },
+                grid: {
+                    color: chartColors.gridColor
                 }
             }
         }
-    });
+    }
+});
 }
 
 function updateChartColors(chart, chartColors) {
