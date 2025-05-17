@@ -190,6 +190,19 @@ canvas {
     padding: 0;
 }
 
+th {
+    text-align: center;
+}
+
+#table-container {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+#table-container::-webkit-scrollbar {
+  display: none;
+}
+
 th, td {
     padding: 0.25rem;
 }

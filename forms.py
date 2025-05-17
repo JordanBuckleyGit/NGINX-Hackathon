@@ -3,7 +3,7 @@ from wtforms import StringField, SelectField, DateTimeField, SubmitField
 from wtforms.validators import Optional
 
 class LogFilterForm(FlaskForm):
-    ip_address = StringField('Ip Address', validators=[Optional()])
+    ip_address = StringField('IP Address', validators=[Optional()])
     status_code = SelectField('Status Code', choices=[
         ('', 'All'),
         ('200', '200 OK'),
