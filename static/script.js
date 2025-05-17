@@ -11,14 +11,11 @@ const sortedKeys = Object.keys(timestamp_logs).sort((a, b) => {
   return parseDate(a) - parseDate(b);
 });
 
-// let ip_keys = Object.keys(unique_ips)
-// for (const key in ip_keys) {
-//     console.log(key, unique_ips[key])
-// }
-
 // map
 document.addEventListener('DOMContentLoaded', async () => {
     let ping_icon;
+    let count;
+    let ip_keys = Object.keys(unique_ips)
     if (!ips) return;
     const map = L.map('map').setView([20, 0], 2);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -52,7 +49,26 @@ document.addEventListener('DOMContentLoaded', async () => {
         shadowSize: [41, 41]
     });
 
+    const legend = L.control({position: 'bottomright'});
+
+    legend.onAdd = function (map) {
+      const div = L.DomUtil.create('div', 'legend');
+      div.innerHTML += '<i style="background: red"></i>High Concentration<br><br>';
+      div.innerHTML += '<i style="background: yellow"></i>Medium Concentration<br><br>';
+      div.innerHTML += '<i style="background: green"></i>Low Concentration<br><br>';
+      return div;
+    };
+
+    legend.addTo(map);
+
     for (const ip of ips) {
+        let ip_base = ip.split('.')[0]
+        for (const key in ip_keys) {
+            if (ip_base === key) {
+                count = unique_ips[key]
+                }
+            }
+
         if (high_conc.includes(ip)) {
             ping_icon = redIcon
         }
@@ -68,13 +84,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             const data = await res.json();
             if (data.status === "success") {
                 L.marker([data.lat, data.lon], {icon:ping_icon}).addTo(map)
-                    .bindPopup(`IP: ${ip}`);
+                    .bindPopup(`IP: ${ip}, COUNT: ${count}`);
             }
         } catch (e) {
         }
     }
 });
-
 
 const timestamp_labels = sortedKeys;
 const timestamp_data = sortedKeys.map(key => timestamp_logs[key]);
@@ -83,28 +98,10 @@ let requestChart;
 let statusChart;
 let errorChart;
 
-const green = '#00F'//colors.green[600];
-const yellow = '#AAA'//colors.yellow[400];
-const red = '#F00'//colors.red[600];
-const gray = '333'//colors.gray[300];
-
-function getChartColors() {
-    const isDark = document.documentElement.classList.contains('dark');
-
-    return {
-        textColor: isDark ? 'gray' : '#fff',
-        gridColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
-        backgroundColor: isDark ? '#1f2937' : 'gray',
-        borderColor: isDark ? 'gray' : '#000', 
-    };
-}
-
 function createChart() {
     const requestCtx = document.getElementById('requestChart').getContext('2d');
     const statusCtx = document.getElementById('statusChart').getContext('2d');
     const barCtx = document.getElementById('errorChart').getContext('2d');
-
-    const chartColors = getChartColors();
 
     requestChart = new Chart(requestCtx, {
         type: 'line',
@@ -139,18 +136,18 @@ function createChart() {
             scales: {
                 x: {
                     ticks: {
-                        color: chartColors.textColor
+                        color: 'white'
                     },
                     grid: {
-                        color: chartColors.gridColor
+                        color: '#666'
                     }
                 },
                 y: {
                     ticks: {
-                        color: chartColors.textColor
+                        color: 'white'
                     },
                     grid: {
-                        color: chartColors.gridColor
+                        color: '#666'
                     }
                 }
             }
@@ -166,7 +163,7 @@ function createChart() {
             data: status_data,
             backgroundColor: ['#35ca44','brown','red','yellow','orange','purple','pink',
                               'blue','white','black','gray', 'cyan','green'],
-            borderWidth: 2
+            borderWidth: 2, 
             }]
         },
         options: {
@@ -182,6 +179,7 @@ function createChart() {
                     family: 'Arial',
                     weight: 'bold'
                 },
+                color: 'white',
                 boxWidth: 20,
                 usePointStyle: true
                 }},
@@ -197,97 +195,58 @@ function createChart() {
         }
     });
     
-errorChart = new Chart(barCtx, {
-    type: 'bar',
-    data: {
-        labels: error_hour_labels,
-        datasets: [{
-            label: 'Errors per Hour',
-            data: error_hour_data,
-            borderColor: 'rgb(255, 99, 132)',
-            backgroundColor: 'rgba(255, 0, 0, 0.75)',
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                labels: {
-                    color: chartColors.textColor
-                }
-            },
-            title: {
-                color: 'white',
-                display: true,
-                text: 'Errors by Hour of Day',
-                font: {
-                    size: 18
-                },
-            },
+    errorChart = new Chart(barCtx, {
+        type: 'bar',
+        data: {
+            labels: error_hour_labels,
+            datasets: [{
+                label: 'Errors per Hour',
+                data: error_hour_data,
+                borderColor: 'rgb(255, 99, 132)',
+                backgroundColor: 'rgba(255, 0, 0, 0.75)',
+            }]
         },
-        scales: {
-            x: {
-                ticks: {
-                    color: chartColors.textColor
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: 'white'
+                    }
                 },
-                grid: {
-                    color: chartColors.gridColor
-                }
+                title: {
+                    color: 'white',
+                    display: true,
+                    text: 'Errors by Hour of Day',
+                    font: {
+                        size: 18
+                    },
+                },
             },
-            y: {
-                ticks: {
-                    color: chartColors.textColor
+            scales: {
+                x: {
+                    ticks: {
+                        color: 'white'
+                    },
+                    grid: {
+                        color: '#666'
+                    }
                 },
-                grid: {
-                    color: chartColors.gridColor
+                y: {
+                    ticks: {
+                        color: 'white'
+                    },
+                    grid: {
+                        color: '#666'
+                    }
                 }
             }
         }
-    }
-});
-}
-
-function updateChartColors(chart, chartColors) {
-    if (!chart) return;
-
-    chart.options.plugins.legend.labels.color = chartColors.textColor;
-
-    const hasX = chart.options.scales?.x;
-    const hasY = chart.options.scales?.y;
-
-    if (hasX) {
-        chart.options.scales.x.ticks.color = chartColors.textColor;
-        chart.options.scales.x.grid.color = chartColors.gridColor;
-    }
-
-    if (hasY) {
-        chart.options.scales.y.ticks.color = chartColors.textColor;
-        chart.options.scales.y.grid.color = chartColors.gridColor;
-    }
-
-    chart.data.datasets.forEach(dataset => {
-        dataset.borderColor = chartColors.borderColor;
     });
-
-    chart.update('none');
 }
 
 createChart();
-const charts = [requestChart, statusChart, errorChart];
-const chartColors = getChartColors();
-charts.forEach(chart => updateChartColors(chart, chartColors));
-
-
-document.getElementById('toggleDark').addEventListener('change', (event) => {
-    const isChecked = event.target.checked;
-    document.documentElement.classList.toggle('dark', isChecked);
-    
-    const charts = [requestChart, statusChart, errorChart];
-    const chartColors = getChartColors();
-    charts.forEach(chart => updateChartColors(chart, chartColors));
-});
-
 
 document.addEventListener("DOMContentLoaded", function () {
     const backToTop = document.getElementById("backToTop");
@@ -320,23 +279,3 @@ downloadModal.addEventListener("click", (e) => {
         downloadModal.style.display = "none";
     }
 });
-// document.addEventListener('DOMContentLoaded', function() {
-//     const btn = document.getElementById('toggleMode');
-//     if (btn) {
-//         btn.onclick = function() {
-//             if (document.body.classList.contains('dark-mode')) {
-//                 setLightMode();
-//             } else {
-//                 setDarkMode();
-//             }
-//         };
-//     }
-// });
-
-// function setDarkMode() {
-//     document.body.classList.add('dark-mode');
-// }
-
-// function setLightMode() {
-//     document.body.classList.remove('dark-mode');
-// }
