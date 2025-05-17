@@ -1,13 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>ACM</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ACM</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="module" src="{{ url_for('static', filename='script.js') }}"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
 </head>
-<body class="bg-gray-100 text-gray-900">
-    <div class="p-8 max-w-xl mx-auto">
-        <h1 class="text-3xl font-bold mb-4">Test</h1>
-    </div>
+<body>
+
+  <section id="sidebar">
+    <p>Date Range</p>
+  </section>
+
+  <section id="headerBar">
+    <header>
+    <h1>ACM</h1>
+    <p>LIGHT</p>
+    <label id="toggleDark">
+      <input type="checkbox" class="sr-only peer">
+      <div></div>
+      <div></div>
+    </label>
+    <p>DARK</p>
+
+    </header>
+    <h2 class="text-2xl font-semibold ">Dashboard Charts</h2>
+
+    <section id="chartGrid">
+
+      <div>
+        <table>
+            <thead>
+
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+      </div>
+
+       <div class="flex flex-col justify-center gap-4 text-xl">
+        <p>Total Requests: 5,097</p>
+        <p>Average Response Time: 13ms</p>
+        <p>Unique IP: 3,124</p>
+      </div>
+
+      <div>
+        <canvas id="requestChart" class="w-full h-full"></canvas>
+      </div>
+
+      <div>
+        <canvas id="statusChart" class="w-full h-full"></canvas>
+      </div>
+
+      <div>
+        <canvas id="barChart" class="w-full h-full"></canvas>
+      </div>
+
+    </section>  
+  </section>
+
 </body>
 </html>
