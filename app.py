@@ -17,16 +17,26 @@ Session(app)
 @app.route('/', methods=['GET', 'POST'])
 def index():
     form = LogFilterForm()
-    log_path = os.path.join(app.root_path, 'access.log')
-    log_lines = []
+    db = get_db()
+    query = "SELECT * FROM logs"
+    filters = []
+    params = []
 
-    if os.path.exists(log_path):
-        with open(log_path, 'r') as f:
-            log_lines = f.readlines()
     if form.validate_on_submit():
         if form.ip_address.data:
-            log_lines = [line for line in log_lines if form.ip_address.data in line]
+            filters.append("ip_address LIKE ?")
+            params.append(f"%{form.ip_address.data}%")
         if form.status_code.data:
-            log_lines = [line for line in log_lines if form.status_code.data in line]
+            filters.append("status_code = ?")
+            params.append(form.status_code.data)
+        if form.method.data:
+            filters.append("request LIKE ?")
+            params.append(f"{form.method.data} %")
 
-    return render_template('index.html', form=form, log_lines=log_lines)
+    if filters:
+        query += " WHERE " + " AND ".join(filters)
+    query += " ORDER BY id DESC LIMIT 100"
+
+    log_entries = db.execute(query, params).fetchall()
+
+    return render_template('index.html', form=form, log_entries=log_entries)

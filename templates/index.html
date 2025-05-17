@@ -1,105 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ACM</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script type="module" src="{{ url_for('static', filename='script.js') }}"></script>
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ACM</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module" src="{{ url_for('static', filename='script.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
 </head>
+
 <body>
 
-  <section id="sidebar">
-    <form method="POST" action="{{ url_for('index') }}">
-      {{ form.hidden_tag() }}
-      <div>
-        {{ form.ip_address.label }} {{ form.ip_address(size=20) }}
-      </div>
-      <div>
-        {{ form.status_code.label }} {{ form.status_code() }}
-      </div>
-      <div>
-        {{ form.method.label }} {{ form.method() }}
-      </div>
-      <div>
-        {{ form.start_time.label }} {{ form.start_time() }}
-      </div>
-      <div>
-        {{ form.end_time.label }} {{ form.end_time() }}
-      </div>
-      <div>
-        {{ form.submit() }}
-      </div>
-    </form>
-  </section>
+    <section id="sidebar">
+        <form method="POST" action="{{ url_for('index') }}">
+            {{ form.hidden_tag() }}
+            <div>
+                {{ form.ip_address.label }} {{ form.ip_address(size=20) }}
+            </div>
+            <div>
+                {{ form.status_code.label }} {{ form.status_code() }}
+            </div>
+            <div>
+                {{ form.method.label }} {{ form.method() }}
+            </div>
+            <div>
+                {{ form.start_time.label }} {{ form.start_time() }}
+            </div>
+            <div>
+                {{ form.end_time.label }} {{ form.end_time() }}
+            </div>
+            <div>
+                {{ form.submit() }}
+            </div>
+        </form>
+    </section>
 
-  <section id="headerBar">
-    <header>
-    <h1>ACM</h1>
-    <p>LIGHT</p>
-    <label id="toggleDark">
-      <input type="checkbox" class="sr-only peer">
-      <div></div>
-      <div></div>
-    </label>
-    <p>DARK</p>
+    <section id="headerBar">
+        <header>
+            <h1>ACM</h1>
+            <p>LIGHT</p>
+            <label id="toggleDark">
+                <input type="checkbox" class="sr-only peer">
+                <div></div>
+                <div></div>
+            </label>
+            <p>DARK</p>
 
-    </header>
-    <h2>Dashboard Charts</h2>
+        </header>
+        <h2>Dashboard Charts</h2>
 
-    <section id="chartGrid">
+        <section id="chartGrid">
 
-      <div id="table-container">
-        <table>
-            <thead>
-              <tr>
-                <th>IP</th>
-                <th>Timestamp</th>
-                <th>Request</th>
-                <th>Response Code</th>
-                <th>Bytes sent</th>
-                <th>Referrer</th>
-                <th>User Agent</th>
-              </tr>
-            </thead>
-            <tbody>
-                {% for line in log_lines[:1] %}
-                    <tr>
-                    <td style="font-family:monospace;">{{ line.strip() }}</td>
-                    </tr>
-                {% else %}
-                    <tr>
-                    <td>No log entries found.</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-      </div>
+            <div id="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>IP</th>
+                            <th>Timestamp</th>
+                            <th>Request</th>
+                            <th>Response Code</th>
+                            <th>Bytes sent</th>
+                            <th>User Agent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entry in log_entries %}
+                        <tr>
+                            <td>{{ entry['ip_address'] }}</td>
+                            <td>{{ entry['timestamp'] }}</td>
+                            <td style="font-family:monospace;">{{ entry['request'] }}</td>
+                            <td>{{ entry['status_code'] }}</td>
+                            <td>{{ entry['bytes_sent'] }}</td>
+                            <td>{{ entry['user_agent'] }}</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="7">No log entries found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
 
-       <div class="stats-container">
-        <p>Total Requests: 5,097</p>
-        <p>Average Response Time: 13ms</p>
-        <p>Unique IP: 3,124</p>
-      </div>
+            <div class="stats-container">
+                <p>Total Requests: 5,097</p>
+                <p>Average Response Time: 13ms</p>
+                <p>Unique IP: 3,124</p>
+            </div>
 
-      <div class="chart-container">
-        <canvas id="requestChart"></canvas>
-      </div>
+            <div class="chart-container">
+                <canvas id="requestChart"></canvas>
+            </div>
 
-      <div class="chart-container">
-        <canvas id="statusChart"></canvas>
-      </div>
+            <div class="chart-container">
+                <canvas id="statusChart"></canvas>
+            </div>
 
-      <div class="chart-container">
-        <canvas id="barChart"></canvas>
-      </div>
+            <div class="chart-container">
+                <canvas id="barChart"></canvas>
+            </div>
 
-    </section>  
-  </section>
+        </section>
+    </section>
 </body>
+
 </html>
-    <!-- <meta charset="UTF-8">
+<!-- <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ACM</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
