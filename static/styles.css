@@ -11,6 +11,10 @@ canvas {
   max-width: 100%;
 }
 
+#table-container {
+    margin-top: 3em;
+}
+
 *, *:before, *:after {
     box-sizing: border-box;
 }
@@ -30,12 +34,6 @@ body {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   order: 1;
   width: 16rem;
-}
-
-@media (max-width: 768px) {
-  #sidebar {
-    display: none;
-  }
 }
 
 #headerBar {
@@ -71,6 +69,12 @@ h2 {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  #sidebar {
+    display: none;
+  }
 }
 
 @media (min-width: 768px) {
@@ -113,13 +117,18 @@ th, td {
 }
 
 #table-container {
-  max-height: 400px;
   overflow-y: auto;
   overflow-x: auto;
   grid-column: span 1;
 }
 
 @media (min-width: 768px) {
+  #table-container {
+    grid-column: span 2;
+  }
+}
+
+@media (min-width: 1024px) {
   #table-container {
     grid-column: span 3;
   }
