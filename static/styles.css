@@ -301,7 +301,7 @@ th {
   to   { transform: translateY(0) scale(1); opacity: 1; }
 }
 
-.close-btn {
+ .close-btn {
   position: absolute;
   top: 12px; right: 16px;
   background: none;
