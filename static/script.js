@@ -11,26 +11,70 @@ const sortedKeys = Object.keys(timestamp_logs).sort((a, b) => {
   return parseDate(a) - parseDate(b);
 });
 
+// let ip_keys = Object.keys(unique_ips)
+// for (const key in ip_keys) {
+//     console.log(key, unique_ips[key])
+// }
+
 // map
 document.addEventListener('DOMContentLoaded', async () => {
+    let ping_icon;
     if (!ips) return;
     const map = L.map('map').setView([20, 0], 2);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors'
     }).addTo(map);
 
+    let redIcon = L.icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+        shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
+
+    let yellowIcon = L.icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-yellow.png',
+        shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
+
+    let greenIcon = L.icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
+        shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
+
     for (const ip of ips) {
+        if (high_conc.includes(ip)) {
+            ping_icon = redIcon
+        }
+        else if (mid_conc.includes(ip)) {
+            ping_icon = yellowIcon
+        }
+        else {
+            ping_icon = greenIcon
+        }
+
         try {
             const res = await fetch(`http://ip-api.com/json/${ip}`);
             const data = await res.json();
             if (data.status === "success") {
-                L.marker([data.lat, data.lon]).addTo(map)
+                L.marker([data.lat, data.lon], {icon:ping_icon}).addTo(map)
                     .bindPopup(`IP: ${ip}`);
             }
         } catch (e) {
         }
     }
 });
+
 
 const timestamp_labels = sortedKeys;
 const timestamp_data = sortedKeys.map(key => timestamp_logs[key]);
@@ -153,50 +197,55 @@ function createChart() {
         }
     });
     
-    barChart = new Chart(barCtx, {
+barChart = new Chart(barCtx, {
     type: 'bar',
     data: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        labels: error_hour_labels,
         datasets: [{
-        label: 'Errors',
-        data: [3000, 4000, 3200, 5000, 4800, 6000],
-        borderColor: 'rgb(34, 197, 94)',
-        backgroundColor: 'rgba(34, 197, 94, 0.2)',
-        tension: 0.4,
-        fill: true,
-        pointRadius: 4,
+            label: 'Errors per Hour',
+            data: error_hour_data,
+            borderColor: 'rgb(255, 99, 132)',
+            backgroundColor: 'rgba(255, 99, 132, 0.5)',
         }]
     },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    labels: {
-                        color: chartColors.textColor
-                    }
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                labels: {
+                    color: chartColors.textColor
                 }
             },
-            scales: {
-                x: {
-                    ticks: {
-                        color: chartColors.textColor
-                    },
-                    grid: {
-                        color: chartColors.gridColor
-                    }
+            title: {
+                color: 'white',
+                display: true,
+                text: 'Errors by Hour of Day',
+                font: {
+                    size: 18
                 },
-                y: {
-                    ticks: {
-                        color: chartColors.textColor
-                    },
-                    grid: {
-                        color: chartColors.gridColor
-                    }
+            },
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: chartColors.textColor
+                },
+                grid: {
+                    color: chartColors.gridColor
+                }
+            },
+            y: {
+                ticks: {
+                    color: chartColors.textColor
+                },
+                grid: {
+                    color: chartColors.gridColor
                 }
             }
         }
-    });
+    }
+});
 }
 
 function updateChartColors(chart, chartColors) {

@@ -4,7 +4,8 @@ from flask_session import Session
 from werkzeug.security import generate_password_hash, check_password_hash
 from forms import LogFilterForm
 from functools import wraps
-from collections import OrderedDict
+from collections import OrderedDict, Counter
+import datetime
 import os
 
 app = Flask(__name__)
@@ -67,6 +68,20 @@ def index():
         else:
             timestamp_logs[timestamp] += 1
 
+    error_hours = Counter()
+    for entry in log_entries:
+        code = int(entry['status_code'])
+        if 400 <= code < 600:
+            try:
+                dt = datetime.datetime.strptime(entry['timestamp'][:20], "%d/%b/%Y:%H:%M:%S")
+                hour = dt.hour
+                error_hours[hour] += 1
+            except Exception:
+                continue
+
+    error_hour_labels = [f"{h:02d}:00" for h in range(24)]
+    error_hour_data = [error_hours.get(h, 0) for h in range(24)]
+
     unique_ip_groups = OrderedDict()
     for entry in log_entries:
         ip = entry['ip_address']
@@ -74,7 +89,6 @@ def index():
         if key not in unique_ip_groups:
             unique_ip_groups[key] = ip
 
-    
     unique_ips = {}
     for entry in log_entries:
         entry = entry['ip_address'].split(".")[0]
@@ -83,20 +97,38 @@ def index():
         else:
             unique_ips[entry] += 1
 
-    unique_ips = len(unique_ips)
+    high_conc = []
+    mid_conc = []
+    low_conc = []
+    for entry in log_entries:
+        concentration = unique_ips[entry['ip_address'].split(".")[0]]
+        if concentration > 100:
+            high_conc.append(entry['ip_address'])
+        elif concentration > 50:
+            mid_conc.append(entry['ip_address'])
+        else:
+            low_conc.append(entry['ip_address'])
 
-    ips = list(unique_ip_groups.values())
+    unique_ips_count = len(unique_ips)
+
+    ips = list(unique_ip_groups.values())#
 
     return render_template(
         'index.html',
         form=form,
         log_entries=log_entries,
-        ips = ips,
+        ips=ips,
         total_requests=total_requests,
         avg_bytes=avg_bytes,
         most_common_status=most_common_status[0] if most_common_status else "N/A",
         most_common_ip=most_common_ip[0] if most_common_ip else "N/A",
         code_frequencies=code_frequencies,
         timestamp_logs=timestamp_logs,
-        unique_ips=unique_ips
+        unique_ips_count=unique_ips_count,
+        unique_ips=unique_ips,
+        error_hour_labels=error_hour_labels,
+        error_hour_data=error_hour_data,
+        high_conc=high_conc,
+        mid_conc=mid_conc,
+        low_conc=low_conc
     )

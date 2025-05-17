@@ -68,7 +68,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for entry in log_entries[:1] %}
+                        {% for entry in log_entries %}
                             {% if loop.index0 % 2 == 0 %}
                                 <tr style="background-color: #4B5563;">
                                     <td>{{ entry['id'] }}</td>
@@ -104,8 +104,10 @@
                 <p>Average Bytes Sent: {{ avg_bytes|round(2) }}</p>
                 <p>Most Common Status Code: {{ most_common_status }}</p>
                 <p>Most Common IP: {{ most_common_ip }}</p>
-                <p>Unique IPs: {{ unique_ips }}</p>
+                <p>Unique IPs: {{ unique_ips_count }}</p>
             </div>
+            
+            <div id="map"></div>
 
             <div class="chart-container">
                 <canvas id="requestChart"></canvas>
@@ -119,8 +121,6 @@
                 <canvas id="barChart"></canvas>
             </div>
 
-            <div id="map"></div>
-
         </section>
     </section>
 <button id="backToTop" style="display:none; position:fixed; bottom:40px; right:40px; z-index:1000; background:var(--accent); color:#fff; border:none; border-radius:50%; width:56px; height:56px; font-size:2rem; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.15);">
@@ -130,7 +130,13 @@
 <script>
     let code_frequencies = JSON.parse('{{ code_frequencies|tojson|safe }}');
     let timestamp_logs = JSON.parse('{{ timestamp_logs|tojson|safe }}');
+    let error_hour_labels = JSON.parse('{{ error_hour_labels|tojson|safe }}');
+    let error_hour_data = JSON.parse('{{ error_hour_data|tojson|safe }}');
     let ips = JSON.parse('{{ ips|tojson|safe }}');
+    let unique_ips = JSON.parse('{{ unique_ips|tojson|safe }}');
+    let high_conc = JSON.parse('{{ high_conc|tojson|safe }}');
+    let mid_conc = JSON.parse('{{ mid_conc|tojson|safe }}');
+    let low_conc = JSON.parse('{{ low_conc|tojson|safe }}');
 </script>
 
 </body>
