@@ -74,7 +74,6 @@ def index():
         if key not in unique_ip_groups:
             unique_ip_groups[key] = ip
 
-    
     unique_ips = {}
     for entry in log_entries:
         entry = entry['ip_address'].split(".")[0]
@@ -83,9 +82,21 @@ def index():
         else:
             unique_ips[entry] += 1
 
-    unique_ips = len(unique_ips)
+    high_conc = []
+    mid_conc = []
+    low_conc = []
+    for entry in log_entries:
+        concentration = unique_ips[entry['ip_address'].split(".")[0]]
+        if concentration > 100:
+            high_conc.append(entry['ip_address'])
+        elif concentration > 50:
+            mid_conc.append(entry['ip_address'])
+        else:
+            low_conc.append(entry['ip_address'])
 
-    ips = list(unique_ip_groups.values())
+    unique_ips_count = len(unique_ips)
+
+    ips = list(unique_ip_groups.values())#
 
     return render_template(
         'index.html',
@@ -98,5 +109,9 @@ def index():
         most_common_ip=most_common_ip[0] if most_common_ip else "N/A",
         code_frequencies=code_frequencies,
         timestamp_logs=timestamp_logs,
-        unique_ips=unique_ips
+        unique_ips_count=unique_ips_count,
+        unique_ips=unique_ips,
+        high_conc=high_conc,
+        mid_conc=mid_conc,
+        low_conc=low_conc
     )
