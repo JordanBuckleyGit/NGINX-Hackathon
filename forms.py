@@ -18,8 +18,8 @@ class LogFilterForm(FlaskForm):
         ("POST", "POST"),
     ], validators=[Optional()])
 
-    start_time = DateField('Start Time (DD-MM-YY)', format='%d-%m-%y', validators=[Optional()])
-    end_time = DateField('End Time (DD-MM-YY)', format = '%d-%m-%y', validators=[Optional()])
+    start_time = DateField('Start Time', format='%Y-%m-%d', validators=[Optional()])
+    end_time = DateField('End Time', format = '%Y-%m-%d', validators=[Optional()])
     submit = SubmitField("Apply Filters")
 
 class ExportReportForm(FlaskForm):
