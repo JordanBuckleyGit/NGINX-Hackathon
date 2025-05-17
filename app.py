@@ -14,15 +14,8 @@ app.config["SESSION_TYPE"] = "filesystem"
 app.config["UPLOAD_FOLDER"] = "static/images"
 Session(app)
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    form = LogFilterForm()
-    log_lines = []
-    return render_template('index.html', form=form, log_lines=log_lines)
-
-
-@app.route('/logs', methods=['GET', 'POST'])
-def show_logs():
     form = LogFilterForm()
     log_path = os.path.join(app.root_path, 'access.log')
     log_lines = []
@@ -30,8 +23,6 @@ def show_logs():
     if os.path.exists(log_path):
         with open(log_path, 'r') as f:
             log_lines = f.readlines()
-        print("LOG LINES:", log_lines)
-
     if form.validate_on_submit():
         if form.ip_address.data:
             log_lines = [line for line in log_lines if form.ip_address.data in line]

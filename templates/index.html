@@ -11,7 +11,7 @@
 <body>
 
   <section id="sidebar">
-    <form method="POST" action="{{ url_for('show_logs') }}">
+    <form method="POST" action="{{ url_for('index') }}">
       {{ form.hidden_tag() }}
       <div>
         {{ form.ip_address.label }} {{ form.ip_address(size=20) }}
