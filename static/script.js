@@ -81,7 +81,7 @@ const timestamp_data = sortedKeys.map(key => timestamp_logs[key]);
 
 let requestChart;
 let statusChart;
-let barChart;
+let errorChart;
 
 const green = '#00F'//colors.green[600];
 const yellow = '#AAA'//colors.yellow[400];
@@ -102,8 +102,8 @@ function getChartColors() {
 function createChart() {
     const requestCtx = document.getElementById('requestChart').getContext('2d');
     const statusCtx = document.getElementById('statusChart').getContext('2d');
-    const barCtx = document.getElementById('barChart').getContext('2d');
-    
+    const barCtx = document.getElementById('errorChart').getContext('2d');
+
     const chartColors = getChartColors();
 
     requestChart = new Chart(requestCtx, {
@@ -197,7 +197,7 @@ function createChart() {
         }
     });
     
-barChart = new Chart(barCtx, {
+errorChart = new Chart(barCtx, {
     type: 'bar',
     data: {
         labels: error_hour_labels,
@@ -205,7 +205,7 @@ barChart = new Chart(barCtx, {
             label: 'Errors per Hour',
             data: error_hour_data,
             borderColor: 'rgb(255, 99, 132)',
-            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+            backgroundColor: 'rgba(255, 0, 0, 0.75)',
         }]
     },
     options: {
@@ -274,7 +274,7 @@ function updateChartColors(chart, chartColors) {
 }
 
 createChart();
-const charts = [requestChart, statusChart, barChart];
+const charts = [requestChart, statusChart, errorChart];
 const chartColors = getChartColors();
 charts.forEach(chart => updateChartColors(chart, chartColors));
 
@@ -283,7 +283,7 @@ document.getElementById('toggleDark').addEventListener('change', (event) => {
     const isChecked = event.target.checked;
     document.documentElement.classList.toggle('dark', isChecked);
     
-    const charts = [requestChart, statusChart, barChart];
+    const charts = [requestChart, statusChart, errorChart];
     const chartColors = getChartColors();
     charts.forEach(chart => updateChartColors(chart, chartColors));
 });
