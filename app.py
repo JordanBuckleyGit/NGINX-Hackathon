@@ -36,7 +36,7 @@ def index():
 
     if filters:
         query += " WHERE " + " AND ".join(filters)
-    query += " ORDER BY id DESC LIMIT 100"
+    query += " ORDER BY id ASC"
 
     log_entries = db.execute(query, params).fetchall()
 

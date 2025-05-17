@@ -56,6 +56,7 @@
                 <table>
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>IP</th>
                             <th>Timestamp</th>
                             <th>Response Code</th>
@@ -68,6 +69,7 @@
                         {% for entry in log_entries %}
                             {% if loop.index0 % 2 == 0 %}
                                 <tr style="background-color: #4B5563;">
+                                    <td>{{ entry['id'] }}</td>
                                     <td>{{ entry['ip_address'] }}</td>
                                     <td>{{ entry['timestamp'] }}</td>
                                     <td>{{ entry['status_code'] }}</td>
@@ -77,6 +79,7 @@
                                 </tr>
                             {% else %}
                             <tr style="background-color: #6B7280;">
+                                    <td>{{ entry['id'] }}</td>
                                     <td>{{ entry['ip_address'] }}</td>
                                     <td>{{ entry['timestamp'] }}</td>
                                     <td>{{ entry['status_code'] }}</td>
