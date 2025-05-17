@@ -26,14 +26,22 @@
     <p>DARK</p>
 
     </header>
-    <h2 class="text-2xl font-semibold ">Dashboard Charts</h2>
+    <h2>Dashboard Charts</h2>
 
     <section id="chartGrid">
 
       <div>
         <table>
             <thead>
-
+              <tr>
+                <th>IP</th>
+                <th>Timestamp</th>
+                <th>Request</th>
+                <th>Response Code</th>
+                <th>Bytes sent</th>
+                <th>Referrer</th>
+                <th>User Agent</th>
+              </tr>
             </thead>
             <tbody>
 
@@ -41,22 +49,22 @@
         </table>
       </div>
 
-       <div class="flex flex-col justify-center gap-4 text-xl">
+       <div>
         <p>Total Requests: 5,097</p>
         <p>Average Response Time: 13ms</p>
         <p>Unique IP: 3,124</p>
       </div>
 
       <div>
-        <canvas id="requestChart" class="w-full h-full"></canvas>
+        <canvas id="requestChart"></canvas>
       </div>
 
       <div>
-        <canvas id="statusChart" class="w-full h-full"></canvas>
+        <canvas id="statusChart"></canvas>
       </div>
 
       <div>
-        <canvas id="barChart" class="w-full h-full"></canvas>
+        <canvas id="barChart"></canvas>
       </div>
 
     </section>  
