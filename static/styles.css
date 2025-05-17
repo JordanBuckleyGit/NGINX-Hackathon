@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 :root {
   --main: #1F2937;       
   --section: #374151;    
@@ -210,8 +209,8 @@ table {
 
 th, td {
     padding: 0.25rem;
-=======
-body {
+}
+/* body {
     font-family: Arial, sans-serif;
     background-color: #f4f6f8;
     margin: 0;
@@ -270,5 +269,4 @@ button {
 
 button:hover {
     background: #155a96;
->>>>>>> 7688bbfec5f3b736befe37c79134f0addfd5f596
-}
+} */

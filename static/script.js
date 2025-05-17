@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 // import './styles.css'
 
 let requestChart;
@@ -182,25 +181,23 @@ document.getElementById('toggleDark').addEventListener('change', (event) => {
     const chartColors = getChartColors();
     charts.forEach(chart => updateChartColors(chart, chartColors));
 });
-=======
-document.addEventListener('DOMContentLoaded', function() {
-    const btn = document.getElementById('toggleMode');
-    if (btn) {
-        btn.onclick = function() {
-            if (document.body.classList.contains('dark-mode')) {
-                setLightMode();
-            } else {
-                setDarkMode();
-            }
-        };
-    }
-});
+// document.addEventListener('DOMContentLoaded', function() {
+//     const btn = document.getElementById('toggleMode');
+//     if (btn) {
+//         btn.onclick = function() {
+//             if (document.body.classList.contains('dark-mode')) {
+//                 setLightMode();
+//             } else {
+//                 setDarkMode();
+//             }
+//         };
+//     }
+// });
 
-function setDarkMode() {
-    document.body.classList.add('dark-mode');
-}
+// function setDarkMode() {
+//     document.body.classList.add('dark-mode');
+// }
 
-function setLightMode() {
-    document.body.classList.remove('dark-mode');
-}
->>>>>>> 7688bbfec5f3b736befe37c79134f0addfd5f596
+// function setLightMode() {
+//     document.body.classList.remove('dark-mode');
+// }
