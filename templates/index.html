@@ -37,6 +37,18 @@
                 {{ form.submit() }}
             </div>
         </form>
+        <button id="downloadLogBtn" class="download-btn">Download Log Summary</button>
+
+        <div id="downloadModal" class="modal">
+            <div class="modal-content">
+                <button id="closeModalBtn" class="close-btn" title="Close">&times;</button>
+                <h2>Download Summary Report</h2>
+                <p>You can download your <b>log_summary.csv</b> file below.</p>
+                <a href="{{ url_for('static', filename='log_summary.csv') }}" download class="download-link">
+                    <i class="fa fa-download"></i> Download CSV
+                </a>
+            </div>
+        </div>
     </section>
 
     <section id="headerBar">
@@ -69,27 +81,27 @@
                     </thead>
                     <tbody>
                         {% for entry in log_entries %}
-                            {% if loop.index0 % 2 == 0 %}
-                                <tr style="background-color: #4B5563;">
-                                    <td>{{ entry['id'] }}</td>
-                                    <td>{{ entry['ip_address'] }}</td>
-                                    <td>{{ entry['timestamp'] }}</td>
-                                    <td>{{ entry['status_code'] }}</td>
-                                    <td>{{ entry['bytes_sent'] }}</td>
-                                    <td>{{ entry['user_agent'] }}</td>
-                                    <td>{{ entry['request'] }}</td>
-                                </tr>
-                            {% else %}
-                            <tr style="background-color: #6B7280;">
-                                    <td>{{ entry['id'] }}</td>
-                                    <td>{{ entry['ip_address'] }}</td>
-                                    <td>{{ entry['timestamp'] }}</td>
-                                    <td>{{ entry['status_code'] }}</td>
-                                    <td>{{ entry['bytes_sent'] }}</td>
-                                    <td>{{ entry['user_agent'] }}</td>
-                                    <td>{{ entry['request'] }}</td>
-                            </tr>
-                            {% endif %}
+                        {% if loop.index0 % 2 == 0 %}
+                        <tr style="background-color: #4B5563;">
+                            <td>{{ entry['id'] }}</td>
+                            <td>{{ entry['ip_address'] }}</td>
+                            <td>{{ entry['timestamp'] }}</td>
+                            <td>{{ entry['status_code'] }}</td>
+                            <td>{{ entry['bytes_sent'] }}</td>
+                            <td>{{ entry['user_agent'] }}</td>
+                            <td>{{ entry['request'] }}</td>
+                        </tr>
+                        {% else %}
+                        <tr style="background-color: #6B7280;">
+                            <td>{{ entry['id'] }}</td>
+                            <td>{{ entry['ip_address'] }}</td>
+                            <td>{{ entry['timestamp'] }}</td>
+                            <td>{{ entry['status_code'] }}</td>
+                            <td>{{ entry['bytes_sent'] }}</td>
+                            <td>{{ entry['user_agent'] }}</td>
+                            <td>{{ entry['request'] }}</td>
+                        </tr>
+                        {% endif %}
                         {% else %}
                         <tr>
                             <td id="no_logs" colspan="7">No log entries found.</td>
@@ -106,7 +118,7 @@
                 <p>Most Common IP: {{ most_common_ip }}</p>
                 <p>Unique IPs: {{ unique_ips_count }}</p>
             </div>
-            
+
             <div id="map"></div>
 
             <div class="chart-container">
@@ -123,21 +135,22 @@
 
         </section>
     </section>
-<button id="backToTop" style="display:none; position:fixed; bottom:40px; right:40px; z-index:1000; background:var(--accent); color:#fff; border:none; border-radius:50%; width:56px; height:56px; font-size:2rem; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.15);">
-    <i class="fa-solid fa-hand-point-up"></i>
-</button>
+    <button id="backToTop"
+        style="display:none; position:fixed; bottom:40px; right:40px; z-index:1000; background:var(--accent); color:#fff; border:none; border-radius:50%; width:56px; height:56px; font-size:2rem; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+        <i class="fa-solid fa-hand-point-up"></i>
+    </button>
 
-<script>
-    let code_frequencies = JSON.parse('{{ code_frequencies|tojson|safe }}');
-    let timestamp_logs = JSON.parse('{{ timestamp_logs|tojson|safe }}');
-    let error_hour_labels = JSON.parse('{{ error_hour_labels|tojson|safe }}');
-    let error_hour_data = JSON.parse('{{ error_hour_data|tojson|safe }}');
-    let ips = JSON.parse('{{ ips|tojson|safe }}');
-    let unique_ips = JSON.parse('{{ unique_ips|tojson|safe }}');
-    let high_conc = JSON.parse('{{ high_conc|tojson|safe }}');
-    let mid_conc = JSON.parse('{{ mid_conc|tojson|safe }}');
-    let low_conc = JSON.parse('{{ low_conc|tojson|safe }}');
-</script>
+    <script>
+        let code_frequencies = JSON.parse('{{ code_frequencies|tojson|safe }}');
+        let timestamp_logs = JSON.parse('{{ timestamp_logs|tojson|safe }}');
+        let error_hour_labels = JSON.parse('{{ error_hour_labels|tojson|safe }}');
+        let error_hour_data = JSON.parse('{{ error_hour_data|tojson|safe }}');
+        let ips = JSON.parse('{{ ips|tojson|safe }}');
+        let unique_ips = JSON.parse('{{ unique_ips|tojson|safe }}');
+        let high_conc = JSON.parse('{{ high_conc|tojson|safe }}');
+        let mid_conc = JSON.parse('{{ mid_conc|tojson|safe }}');
+        let low_conc = JSON.parse('{{ low_conc|tojson|safe }}');
+    </script>
 
 </body>
 
