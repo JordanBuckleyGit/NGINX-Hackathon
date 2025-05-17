@@ -5,15 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ACM</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}">
-  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <script type="module" src="{{ url_for('static', filename='script.js') }}"></script>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
 </head>
 <body>
 
   <section id="sidebar">
-    <p>Date Range</p>
-        <form method="POST" action="{{ url_for('show_logs') }}">
+            <form method="POST" action="{{ url_for('show_logs') }}">
       {{ form.hidden_tag() }}
       <div>
         {{ form.ip_address.label }} {{ form.ip_address(size=20) }}
@@ -35,51 +33,80 @@
 
   <section id="headerBar">
     <header>
-      <h1>ACM</h1>
-      <button id="toggleMode" style="float:right;">Toggle Dark/Light Mode</button>
+    <h1>ACM</h1>
+    <p>LIGHT</p>
+    <label id="toggleDark">
+      <input type="checkbox" class="sr-only peer">
+      <div></div>
+      <div></div>
+    </label>
+    <p>DARK</p>
+
     </header>
     <h2>Dashboard Charts</h2>
+
     <section id="chartGrid">
+
       <div>
         <table>
-          <thead>
-            <tr>
-              <th>Log Entry</th>
-            </tr>
-          </thead>
+            <thead>
+              <tr>
+                <th>IP</th>
+                <th>Timestamp</th>
+                <th>Request</th>
+                <th>Response Code</th>
+                <th>Bytes sent</th>
+                <th>Referrer</th>
+                <th>User Agent</th>
+              </tr>
+            </thead>
             <tbody>
-            {% for line in log_lines %}
-                <tr>
-                <td style="font-family:monospace;">{{ line.strip() }}</td>
-                </tr>
-            {% else %}
-                <tr>
-                <td>No log entries found.</td>
-                </tr>
-            {% endfor %}
+                {% for line in log_lines %}
+                    <tr>
+                    <td style="font-family:monospace;">{{ line.strip() }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                    <td>No log entries found.</td>
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
       </div>
 
-      <div class="flex flex-col justify-center gap-4 text-xl">
+       <div>
         <p>Total Requests: 5,097</p>
         <p>Average Response Time: 13ms</p>
         <p>Unique IP: 3,124</p>
       </div>
 
       <div>
-        <canvas id="requestChart" class="w-full h-full"></canvas>
+        <canvas id="requestChart"></canvas>
       </div>
 
       <div>
-        <canvas id="statusChart" class="w-full h-full"></canvas>
+        <canvas id="statusChart"></canvas>
       </div>
 
       <div>
-        <canvas id="barChart" class="w-full h-full"></canvas>
+        <canvas id="barChart"></canvas>
       </div>
 
     </section>  
   </section>
-<!-- </body> -->
+</body>
 </html>
+    <!-- <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACM</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png') }}">
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body>
+    <main>
+        <button id="toggleMode" style="float:right;">Toggle Dark/Light Mode</button>
+        <h1>Test</h1>
+    </main>
+>>>>>>> 7688bbfec5f3b736befe37c79134f0addfd5f596 -->
