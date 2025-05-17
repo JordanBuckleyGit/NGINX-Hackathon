@@ -11,6 +11,28 @@ const sortedKeys = Object.keys(timestamp_logs).sort((a, b) => {
   return parseDate(a) - parseDate(b);
 });
 
+// map
+document.addEventListener('DOMContentLoaded', async () => {
+    if (!ips) return;
+    const map = L.map('map').setView([20, 0], 2);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    for (const ip of ips) {
+        try {
+            const res = await fetch(`http://ip-api.com/json/${ip}`);
+            const data = await res.json();
+            if (data.status === "success") {
+                L.marker([data.lat, data.lon]).addTo(map)
+                    .bindPopup(`IP: ${ip}`);
+            }
+        } catch (e) {
+            // Ignore failed lookups
+        }
+    }
+});
+
 const timestamp_labels = sortedKeys;
 const timestamp_data = sortedKeys.map(key => timestamp_logs[key]);
 

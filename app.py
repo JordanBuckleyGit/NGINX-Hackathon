@@ -65,11 +65,12 @@ def index():
             timestamp_logs[timestamp] = 1
         else:
             timestamp_logs[timestamp] += 1
-
+    ips = [entry['ip_address'] for entry in log_entries]
     return render_template(
         'index.html',
         form=form,
         log_entries=log_entries,
+        ips = ips,
         total_requests=total_requests,
         avg_bytes=avg_bytes,
         most_common_status=most_common_status[0] if most_common_status else "N/A",
