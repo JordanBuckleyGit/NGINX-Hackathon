@@ -122,6 +122,11 @@
 <button id="backToTop" style="display:none; position:fixed; bottom:40px; right:40px; z-index:1000; background:var(--accent); color:#fff; border:none; border-radius:50%; width:56px; height:56px; font-size:2rem; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.15);">
     <i class="fa-solid fa-hand-point-up"></i>
 </button>
+
+<script>
+    let code_frequencies = JSON.parse('{{ code_frequencies|tojson|safe }}');
+</script>
+
 </body>
 
 </html>

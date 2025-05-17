@@ -48,6 +48,17 @@ def index():
         "SELECT ip_address, COUNT(*) as cnt FROM logs GROUP BY ip_address ORDER BY cnt DESC LIMIT 1"
     ).fetchone()
 
+    code_frequencies = {}
+
+    codes = db.execute("""SELECT status_code FROM logs""").fetchall()
+
+    for code in codes:
+        code = code['status_code']
+        if code not in code_frequencies:
+            code_frequencies[code] = 1
+        else:
+            code_frequencies[code] += 1
+
     return render_template(
         'index.html',
         form=form,
@@ -55,5 +66,6 @@ def index():
         total_requests=total_requests,
         avg_bytes=avg_bytes,
         most_common_status=most_common_status[0] if most_common_status else "N/A",
-        most_common_ip=most_common_ip[0] if most_common_ip else "N/A"
+        most_common_ip=most_common_ip[0] if most_common_ip else "N/A",
+        code_frequencies=code_frequencies
     )

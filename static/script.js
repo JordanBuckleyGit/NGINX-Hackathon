@@ -1,4 +1,8 @@
-// import './styles.css'
+// pie chart
+let status_labels = Object.keys(code_frequencies);
+let status_data = Object.values(code_frequencies);
+
+console.log(status_data.length)
 
 let requestChart;
 let statusChart;
@@ -75,11 +79,12 @@ function createChart() {
     statusChart = new Chart(statusCtx, {
         type: 'pie',
         data: {
-            labels: ['200', '500', '404'],
+            labels: status_labels,
             datasets: [{
             label: 'Occurrences',
-            data: [22, 9, 3],
-            backgroundColor: [green, yellow, red],
+            data: status_data,
+            backgroundColor: ['#35ca44','brown','red','yellow','orange','purple','pink',
+                              'blue','white','black','gray', 'cyan','green'],
             borderWidth: 2
             }]
         },
@@ -88,9 +93,7 @@ function createChart() {
             maintainAspectRatio: false,
             plugins: {
                 legend: {
-                    labels: {
-                        color: chartColors.textColor
-                    }
+                    display: false
                 }
             },
         }
