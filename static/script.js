@@ -129,9 +129,18 @@ function createChart() {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-                legend: {
-                    display: false
+            legend: {
+                display: true,
+                position: 'bottom',
+                labels: {
+                font: {
+                    size: 14,
+                    family: 'Arial',
+                    weight: 'bold'
                 },
+                boxWidth: 20,
+                usePointStyle: true
+                }},
                 title: {
                 color: 'white',
                 display: true,
