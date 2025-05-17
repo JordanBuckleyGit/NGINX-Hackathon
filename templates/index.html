@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ACM</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="module" src="{{ url_for('static', filename='script.js') }}"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
@@ -118,6 +119,9 @@
 
         </section>
     </section>
+<button id="backToTop" style="display:none; position:fixed; bottom:40px; right:40px; z-index:1000; background:var(--accent); color:#fff; border:none; border-radius:50%; width:56px; height:56px; font-size:2rem; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+    <i class="fa-solid fa-hand-point-up"></i>
+</button>
 </body>
 
 </html>

@@ -181,6 +181,21 @@ document.getElementById('toggleDark').addEventListener('change', (event) => {
     const chartColors = getChartColors();
     charts.forEach(chart => updateChartColors(chart, chartColors));
 });
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const backToTop = document.getElementById("backToTop");
+    window.addEventListener("scroll", function () {
+        if (window.scrollY > 200) {
+            backToTop.style.display = "block";
+        } else {
+            backToTop.style.display = "none";
+        }
+    });
+    backToTop.addEventListener("click", function () {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+});
 // document.addEventListener('DOMContentLoaded', function() {
 //     const btn = document.getElementById('toggleMode');
 //     if (btn) {
