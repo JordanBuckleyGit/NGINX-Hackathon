@@ -1,6 +1,10 @@
 // pie chart
 let status_labels = Object.keys(code_frequencies);
 let status_data = Object.values(code_frequencies);
+let status_sum = 0;
+for (let data of status_data) {
+    status_sum += data;
+}
 
 // line chart
 const sortedKeys = Object.keys(timestamp_logs).sort((a, b) => {
@@ -103,97 +107,148 @@ function createChart() {
     const statusCtx = document.getElementById('statusChart').getContext('2d');
     const barCtx = document.getElementById('errorChart').getContext('2d');
 
+    const average = timestamp_data.reduce((a, b) => a + b) / timestamp_data.length;
+
     requestChart = new Chart(requestCtx, {
-        type: 'line',
-        data: {
-            labels: timestamp_labels,
-            datasets: [{
+    type: 'line',
+    data: {
+        labels: timestamp_labels,
+        datasets: [
+            {
                 label: 'Logs',
                 data: timestamp_data,
-                borderColor: 'rgb(34, 197, 94)',
-                backgroundColor: 'rgba(34, 197, 94, 0.2)',
+                borderColor: (ctx) => {
+                    const index = ctx.dataIndex;
+                    return timestamp_data[index] > average ? 'rgb(34, 197, 94)' : 'rgb(220, 38, 38)';
+                },
+                backgroundColor: (ctx) => {
+                    const index = ctx.dataIndex;
+                    return timestamp_data[index] > average ? 'rgba(34, 197, 94, 0.2)' : 'rgba(220, 38, 38, 0.2)';
+                },
                 tension: 0.4,
                 fill: true,
                 pointRadius: 4,
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false
-                },
-                title: {
+                segment: {
+                    borderColor: ctx => {
+                        const i = ctx.p1DataIndex;
+                        return timestamp_data[i] > average ? 'rgb(34, 197, 94)' : 'rgb(220, 38, 38)';
+                    },
+                    backgroundColor: ctx => {
+                        const i = ctx.p1DataIndex;
+                        return timestamp_data[i] > average ? 'rgba(34, 197, 94, 0.2)' : 'rgba(220, 38, 38, 0.2)';
+                    }
+                }
+            },
+            {
+                label: 'Average',
+                data: Array(timestamp_data.length).fill(average),
+                borderColor: 'white',
+                borderDash: [5, 5],
+                pointRadius: 0,
+                fill: false
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false
+            },
+            title: {
                 color: 'white',
                 display: true,
                 text: 'Logs Over Time',
                 font: {
                     size: 18
-                    },
+                }
+            }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: 'white'
                 },
+                grid: {
+                    color: '#666'
+                }
             },
-            scales: {
-                x: {
-                    ticks: {
-                        color: 'white'
-                    },
-                    grid: {
-                        color: '#666'
-                    }
+            y: {
+                ticks: {
+                    color: 'white'
                 },
-                y: {
-                    ticks: {
-                        color: 'white'
-                    },
-                    grid: {
-                        color: '#666'
-                    }
+                grid: {
+                    color: '#666'
                 }
             }
         }
-    });
+    }
+});
+
 
     statusChart = new Chart(statusCtx, {
-        type: 'pie',
-        data: {
-            labels: status_labels,
-            datasets: [{
+    type: 'pie',
+    data: {
+        labels: status_labels,
+        datasets: [{
             label: 'Occurrences',
             data: status_data,
             backgroundColor: ['#35ca44','brown','red','yellow','orange','purple','pink',
                               'blue','white','black','gray', 'cyan','green'],
             borderWidth: 2, 
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
             legend: {
                 display: true,
                 position: 'bottom',
                 labels: {
-                font: {
-                    size: 14,
-                    family: 'Arial',
-                    weight: 'bold'
-                },
-                color: 'white',
-                boxWidth: 20,
-                usePointStyle: true
-                }},
-                title: {
+                    font: {
+                        size: 14,
+                        family: 'Arial',
+                        weight: 'bold'
+                    },
+                    color: 'white',
+                    boxWidth: 20,
+                    usePointStyle: true
+                }
+            },
+            title: {
                 color: 'white',
                 display: true,
                 text: 'Status Code Distribution',
                 font: {
                     size: 18
-                    },
                 },
+            },
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        const value = context.raw;
+                        const percentage = ((value / status_sum) * 100).toFixed(1);
+                        return `${context.label}: ${value} (${percentage}%)`;
+                    }
+                }
+            },
+            datalabels: {
+                color: 'white',
+                font: {
+                    weight: 'bold',
+                    size: 13
+                },
+                formatter: function(value, context) {
+                    const percentage = ((value / status_sum) * 100).toFixed(1);
+                    return `Occurences${value}, (${percentage}%)`;
+                }
             }
         }
-    });
+    },
+});
+
     
     errorChart = new Chart(barCtx, {
         type: 'bar',
