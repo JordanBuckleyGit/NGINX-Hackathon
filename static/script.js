@@ -19,7 +19,7 @@ const sortedKeys = Object.keys(timestamp_logs).sort((a, b) => {
 document.addEventListener('DOMContentLoaded', async () => {
     let ping_icon;
     let count;
-    let ip_keys = Object.keys(unique_ips)
+    let ip_keys = Object.keys(unique_ips_location)
     if (!ips) return;
     const map = L.map('map').setView([20, 0], 2);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -66,23 +66,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     legend.addTo(map);
 
     for (const ip of ips) {
-        let ip_base = ip.split('.')[0]
-        for (const key in ip_keys) {
+        let ip_base = ip.split('.')
+        ip_base = ip_base[0] + '.' + ip_base[1]
+        for (const key of ip_keys) {
             if (ip_base === key) {
-                count = unique_ips[key]
+                count = unique_ips_location[key]
                 }
             }
-
-        if (high_conc.includes(ip)) {
+        if (high_conc.includes(ip_base)) {
             ping_icon = redIcon
         }
-        else if (mid_conc.includes(ip)) {
+        else if (mid_conc.includes(ip_base)) {
             ping_icon = yellowIcon
         }
         else {
             ping_icon = greenIcon
         }
-
+        console.log(high_conc)
         try {
             const res = await fetch(`http://ip-api.com/json/${ip}`);
             const data = await res.json();

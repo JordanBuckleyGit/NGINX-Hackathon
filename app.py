@@ -89,29 +89,34 @@ def index():
         if key not in unique_ip_groups:
             unique_ip_groups[key] = ip
 
-    unique_ips = {}
+    unique_ips_location = {}
     for entry in log_entries:
-        entry = entry['ip_address'].split(".")[0]
-        if entry not in unique_ips:
-            unique_ips[entry] = 1
+        entry = entry['ip_address'].split(".")
+        entry = '.'.join(entry[:2])
+        if entry not in unique_ips_location:
+            unique_ips_location[entry] = 1
         else:
-            unique_ips[entry] += 1
+            unique_ips_location[entry] += 1
 
     high_conc = []
     mid_conc = []
     low_conc = []
     for entry in log_entries:
-        concentration = unique_ips[entry['ip_address'].split(".")[0]]
+        key = entry['ip_address'].split(".")
+        key = '.'.join(key[:2])
+        concentration = unique_ips_location[key]
         if concentration > 100:
-            high_conc.append(entry['ip_address'])
+            if key not in high_conc:
+                high_conc.append(key)
         elif concentration > 50:
-            mid_conc.append(entry['ip_address'])
+            if key not in mid_conc:
+                mid_conc.append(key)
         else:
-            low_conc.append(entry['ip_address'])
-
-    unique_ips_count = len(unique_ips)
-
-    ips = list(unique_ip_groups.values())#
+            if key not in low_conc:
+                low_conc.append(key)
+    
+    unique_ips_count = len(unique_ip_groups)
+    ips = list(unique_ip_groups.values())
 
     return render_template(
         'index.html',
@@ -125,7 +130,7 @@ def index():
         code_frequencies=code_frequencies,
         timestamp_logs=timestamp_logs,
         unique_ips_count=unique_ips_count,
-        unique_ips=unique_ips,
+        unique_ips_location=unique_ips_location,
         error_hour_labels=error_hour_labels,
         error_hour_data=error_hour_data,
         high_conc=high_conc,
