@@ -118,6 +118,11 @@ def index():
     unique_ips_count = len(unique_ip_groups)
     ips = list(unique_ip_groups.values())
 
+    webscraper_entries = db.execute(
+    "SELECT * FROM logs WHERE LOWER(user_agent) LIKE ? OR LOWER(user_agent) LIKE ? OR LOWER(user_agent) LIKE ?",
+    ('%chatbot%', '%bot%', '%spider%')
+    ).fetchall()
+
     high_conc_display = []
     mid_conc_display = []
     low_conc_display = []
@@ -153,5 +158,6 @@ def index():
         low_conc=low_conc,
         high_conc_display=high_conc_display,
         mid_conc_display=mid_conc_display,
-        low_conc_display=low_conc_display
+        low_conc_display=low_conc_display,
+        webscraper_entries=webscraper_entries
     )
