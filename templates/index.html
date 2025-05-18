@@ -158,36 +158,35 @@
                     </tbody>
                 </table>
             </div>
-            <div id="webscraper-container" style="margin-top:2rem;">
-                <h2>Webscraper/Bot Activity</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>IP</th>
-                            <th>Timestamp</th>
-                            <th>User Agent</th>
-                            <th>Request</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for entry in webscraper_entries %}
-                        <tr>
-                            <td>{{ entry['id'] }}</td>
-                            <td>{{ entry['ip_address'] }}</td>
-                            <td>{{ entry['timestamp'] }}</td>
-                            <td>{{ entry['user_agent'] }}</td>
-                            <td>{{ entry['request'] }}</td>
-                        </tr>
-                        {% else %}
-                        <tr>
-                            <td colspan="5">No webscraper or chatbot activity found.</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-
+<div id="webscraper-container" style="margin-top:2rem;">
+    <h2>Webscraper/Bot Activity <span style="font-size:1rem; color:#22c55e;">({{ webscraper_entries|length }})</span></h2>
+    <table class="bot-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>IP</th>
+                <th>Timestamp</th>
+                <th>User Agent</th>
+                <th>Request</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in webscraper_entries %}
+            <tr>
+                <td>{{ entry['id'] }}</td>
+                <td>{{ entry['ip_address'] }}</td>
+                <td>{{ entry['timestamp'] }}</td>
+                <td>{{ entry['user_agent'] }}</td>
+                <td>{{ entry['request'] }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5">No webscraper or chatbot activity found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
 
         </section>
