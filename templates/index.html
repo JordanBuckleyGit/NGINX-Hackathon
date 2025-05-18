@@ -55,13 +55,6 @@
     <section id="headerBar">
         <header>
             <h1>Metric Dashboard</h1>
-            <p>LIGHT</p>
-            <label id="toggleDark">
-                <input type="checkbox" class="sr-only peer">
-                <div></div>
-                <div></div>
-            </label>
-            <p>DARK</p>
 
         </header>
 
@@ -144,21 +137,21 @@
                     <tbody>
                         <tr>
                             <th style="color: red;">High Concentration</th>
-                        {% for ip in high_conc %}
+                        {% for ip in high_conc_display %}
                             <td>{{ip}}</td>
                         {% endfor %}
                         </tr>
 
                         <tr>
                             <th style="color: yellow;">Medium Concentration</th>
-                        {% for ip in mid_conc %}
+                        {% for ip in mid_conc_display %}
                             <td>{{ip}}</td>
                         {% endfor %}
                         </tr>
 
                         <tr>
                             <th style="color: lime;">Low Concentration</th>
-                        {% for ip in low_conc %}
+                        {% for ip in low_conc_display %}
                             <td>{{ip}}</td>
                         {% endfor %}
                         </tr>
@@ -184,6 +177,9 @@
         let high_conc = JSON.parse('{{ high_conc|tojson|safe }}');
         let mid_conc = JSON.parse('{{ mid_conc|tojson|safe }}');
         let low_conc = JSON.parse('{{ low_conc|tojson|safe }}');
+        let high_conc_display = JSON.parse('{{ high_conc_display|tojson|safe }}');
+        let mid_conc_display = JSON.parse('{{ mid_conc_display|tojson|safe }}');
+        let low_conc_display = JSON.parse('{{ low_conc_display|tojson|safe }}');
     </script>
 
 </body>

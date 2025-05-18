@@ -114,9 +114,24 @@ def index():
         else:
             if key not in low_conc:
                 low_conc.append(key)
-    
+
     unique_ips_count = len(unique_ip_groups)
     ips = list(unique_ip_groups.values())
+
+    high_conc_display = []
+    mid_conc_display = []
+    low_conc_display = []
+
+    for ip in ips:
+        for high in high_conc:
+            if high in ip:
+                high_conc_display.append(ip)
+        for mid in mid_conc:
+            if mid in ip:
+                mid_conc_display.append(ip)
+        for low in low_conc:
+            if low in ip:
+                low_conc_display.append(ip)
 
     return render_template(
         'index.html',
@@ -135,5 +150,8 @@ def index():
         error_hour_data=error_hour_data,
         high_conc=high_conc,
         mid_conc=mid_conc,
-        low_conc=low_conc
+        low_conc=low_conc,
+        high_conc_display=high_conc_display,
+        mid_conc_display=mid_conc_display,
+        low_conc_display=low_conc_display
     )

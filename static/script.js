@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         else {
             ping_icon = greenIcon
         }
-        console.log(high_conc)
+        
         try {
             const res = await fetch(`http://ip-api.com/json/${ip}`);
             const data = await res.json();
@@ -315,7 +315,7 @@ document.addEventListener("DOMContentLoaded", function () {
     backToTop.addEventListener("click", function () {
         window.scrollTo({ top: 0, behavior: "smooth" });
     });
-});
+}); 
 
 const downloadBtn = document.getElementById("downloadLogBtn");
 const downloadModal = document.getElementById("downloadModal");
