@@ -82,7 +82,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for entry in log_entries[:1] %}
+                        {% for entry in log_entries %}
                         {% if loop.index0 % 2 == 0 %}
                         <tr style="background-color: #4B5563;">
                             <td>{{ entry['id'] }}</td>
@@ -135,6 +135,39 @@
                 <canvas id="errorChart"></canvas>
             </div>
 
+            <div id="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th colspan="1000" style="text-align: left;">Request Concentration from IPs</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th style="color: red;">High Concentration</th>
+                        {% for ip in high_conc %}
+                            <td>{{ip}}</td>
+                        {% endfor %}
+                        </tr>
+
+                        <tr>
+                            <th style="color: yellow;">Medium Concentration</th>
+                        {% for ip in mid_conc %}
+                            <td>{{ip}}</td>
+                        {% endfor %}
+                        </tr>
+
+                        <tr>
+                            <th style="color: lime;">Low Concentration</th>
+                        {% for ip in low_conc %}
+                            <td>{{ip}}</td>
+                        {% endfor %}
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
         </section>
     </section>
     <button id="backToTop"
@@ -148,7 +181,7 @@
         let error_hour_labels = JSON.parse('{{ error_hour_labels|tojson|safe }}');
         let error_hour_data = JSON.parse('{{ error_hour_data|tojson|safe }}');
         let ips = JSON.parse('{{ ips|tojson|safe }}');
-        let unique_ips = JSON.parse('{{ unique_ips|tojson|safe }}');
+        let unique_ips_location = JSON.parse('{{ unique_ips_location|tojson|safe }}');
         let high_conc = JSON.parse('{{ high_conc|tojson|safe }}');
         let mid_conc = JSON.parse('{{ mid_conc|tojson|safe }}');
         let low_conc = JSON.parse('{{ low_conc|tojson|safe }}');
